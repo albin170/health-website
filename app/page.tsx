@@ -1,14 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Page() {
-  const [symptom, setSymptom] = useState("");
-  const [score, setScore] = useState(0);
-  const [showHelp, setShowHelp] = useState(false);
-  const [chat, setChat] = useState("");
+  const [symptom, setSymptom] = useState<string>("");
+  const [score, setScore] = useState<number>(0);
+  const [showHelp, setShowHelp] = useState<boolean>(false);
 
-  const questions = [
+  const questions: string[] = [
     "I feel stressed or anxious frequently",
     "I have trouble sleeping",
     "I find it hard to concentrate on studies",
@@ -16,79 +15,90 @@ export default function Page() {
     "I feel low or unmotivated",
   ];
 
-  const handleScore = (val) => {
-    const newScore = score + val;
+  const handleScore = (value: number) => {
+    const newScore = score + value;
     setScore(newScore);
     if (newScore > 6) setShowHelp(true);
   };
 
   return (
-    <main className="min-h-screen bg-slate-900 text-white p-4 md:p-10 font-sans">
-      <h1 className="text-3xl font-bold mb-2">Health & Student Mental Wellness</h1>
-      <p className="text-slate-300 mb-6">Symptom guidance • Mental health support • Student care</p>
+    <main
+      style={{
+        minHeight: "100vh",
+        padding: "20px",
+        fontFamily: "Arial",
+        backgroundColor: "#0f172a",
+        color: "white",
+      }}
+    >
+      <h1>Health & Student Mental Wellness</h1>
+      <p>Symptom guidance • Mental health support • Student care</p>
+
+      <hr />
 
       {/* Symptom Checker */}
-      <div className="bg-slate-800 p-4 rounded-xl mb-6">
-        <h2 className="text-xl font-semibold mb-2">Symptom Checker</h2>
+      <section style={{ marginTop: "20px" }}>
+        <h2>Symptom Checker</h2>
         <input
+          type="text"
           value={symptom}
           onChange={(e) => setSymptom(e.target.value)}
           placeholder="Enter a symptom (e.g. headache, stress)"
-          className="w-full p-2 rounded text-black"
+          style={{ padding: "8px", width: "250px" }}
         />
-        <p className="text-xs text-slate-400 mt-2">Not a medical diagnosis</p>
-      </div>
+        <p style={{ fontSize: "12px" }}>
+          Not a medical diagnosis.
+        </p>
+      </section>
+
+      <hr />
 
       {/* Mental Health Test */}
-      <div className="bg-slate-800 p-4 rounded-xl mb-6">
-        <h2 className="text-xl font-semibold mb-2">Mental Health Self-Test</h2>
-        <p className="text-sm text-slate-300 mb-4">0 = Never | 1 = Sometimes | 2 = Often</p>
+      <section style={{ marginTop: "20px" }}>
+        <h2>Mental Health Self-Test</h2>
+        <p>0 = Never | 1 = Sometimes | 2 = Often</p>
 
         {questions.map((q, i) => (
-          <div key={i} className="mb-4">
-            <p className="mb-2">{q}</p>
-            <div className="flex gap-2">
-              <button onClick={() => handleScore(0)} className="px-3 py-1 bg-slate-600 rounded">0</button>
-              <button onClick={() => handleScore(1)} className="px-3 py-1 bg-blue-600 rounded">1</button>
-              <button onClick={() => handleScore(2)} className="px-3 py-1 bg-red-600 rounded">2</button>
-            </div>
+          <div key={i} style={{ marginBottom: "15px" }}>
+            <p>{q}</p>
+            <button onClick={() => handleScore(0)}>0</button>{" "}
+            <button onClick={() => handleScore(1)}>1</button>{" "}
+            <button onClick={() => handleScore(2)}>2</button>
           </div>
         ))}
 
-        <p className="font-semibold">Total Score: {score}</p>
-        {score <= 3 && <p className="text-green-400">Low stress 👍</p>}
-        {score > 3 && score <= 6 && <p className="text-yellow-400">Moderate stress ⚠️</p>}
-        {score > 6 && <p className="text-red-400">High stress 🚨</p>}
-      </div>
+        <h3>Total Score: {score}</h3>
 
-      {/* Helpline Popup */}
+        {score <= 3 && <p style={{ color: "lightgreen" }}>Low stress 👍</p>}
+        {score > 3 && score <= 6 && (
+          <p style={{ color: "orange" }}>Moderate stress ⚠️</p>
+        )}
+        {score > 6 && (
+          <p style={{ color: "red" }}>High stress 🚨</p>
+        )}
+      </section>
+
+      {/* Helpline */}
       {showHelp && (
-        <div className="bg-red-700 p-4 rounded-xl mb-6">
-          <h3 className="font-bold mb-2">You are not alone</h3>
-          <p className="text-sm">If you feel overwhelmed, please reach out:</p>
-          <ul className="text-sm mt-2">
-            <li>📞 KIRAN (India): 1800-599-0019</li>
-            <li>📞 AASRA: 91-22-27546669</li>
+        <section
+          style={{
+            backgroundColor: "#7f1d1d",
+            padding: "15px",
+            marginTop: "20px",
+          }}
+        >
+          <h3>You are not alone</h3>
+          <p>Reach out for help:</p>
+          <ul>
+            <li>KIRAN (India): 1800-599-0019</li>
+            <li>AASRA: +91-22-27546669</li>
           </ul>
-        </div>
+        </section>
       )}
 
-      {/* AI Chatbot (Basic) */}
-      <div className="bg-slate-800 p-4 rounded-xl">
-        <h2 className="text-xl font-semibold mb-2">AI Health Assistant</h2>
-        <input
-          value={chat}
-          onChange={(e) => setChat(e.target.value)}
-          placeholder="Ask about symptoms or stress..."
-          className="w-full p-2 rounded text-black"
-        />
-        <p className="text-xs text-slate-400 mt-2">AI gives guidance, not diagnosis</p>
-      </div>
-
-      <footer className="text-xs text-slate-400 mt-10">
+      <footer style={{ marginTop: "40px", fontSize: "12px" }}>
         For emergencies, contact a healthcare professional.
       </footer>
     </main>
   );
 }
-
