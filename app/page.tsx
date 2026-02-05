@@ -15,42 +15,51 @@ export default function Page() {
   ];
 
   return (
-    <main style={{ padding: 30, fontFamily: "Arial, sans-serif" }}>
+    <main style={{ padding: 40, fontFamily: "Arial", color: "white", background: "#0f172a", minHeight: "100vh" }}>
       <h1>Health & Student Mental Wellness</h1>
       <p>Symptom guidance • Mental health support • Student care</p>
 
-      <hr />
+      <hr style={{ margin: "20px 0" }} />
 
+      {/* Symptom Checker */}
       <h2>Symptom Checker</h2>
       <input
-        type="text"
-        placeholder="Enter a symptom"
         value={symptom}
         onChange={(e) => setSymptom(e.target.value)}
+        placeholder="Enter a symptom"
+        style={{
+          padding: "8px",
+          width: "250px",
+          borderRadius: "6px",
+          border: "none"
+        }}
       />
       <p style={{ fontSize: 12 }}>Not a medical diagnosis.</p>
 
-      <hr />
+      <hr style={{ margin: "30px 0" }} />
 
+      {/* Mental Health Test */}
       <h2>Mental Health Self-Test</h2>
       <p>0 = Never | 1 = Sometimes | 2 = Often</p>
 
       {questions.map((q, i) => (
-        <div key={i}>
+        <div key={i} style={{ marginBottom: "20px" }}>
           <p>{q}</p>
-          <button onClick={() => setScore(score + 0)}>0</button>
-          <button onClick={() => setScore(score + 1)}>1</button>
-          <button onClick={() => setScore(score + 2)}>2</button>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button onClick={() => setScore(score + 0)}>0</button>
+            <button onClick={() => setScore(score + 1)}>1</button>
+            <button onClick={() => setScore(score + 2)}>2</button>
+          </div>
         </div>
       ))}
 
       <h3>Total Score: {score}</h3>
 
-      {score <= 3 && <p>Low stress 👍</p>}
-      {score > 3 && score <= 6 && <p>Moderate stress ⚠️</p>}
-      {score > 6 && <p>High stress 🚨 Please seek help.</p>}
+      {score <= 3 && <p style={{ color: "lightgreen" }}>Low stress 👍</p>}
+      {score > 3 && score <= 6 && <p style={{ color: "orange" }}>Moderate stress ⚠️</p>}
+      {score > 6 && <p style={{ color: "red" }}>High stress 🚨 Please seek help.</p>}
 
-      <footer style={{ fontSize: 12, marginTop: 20 }}>
+      <footer style={{ fontSize: 12, marginTop: 40 }}>
         For emergencies, contact a healthcare professional.
       </footer>
     </main>
